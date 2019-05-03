@@ -49,7 +49,8 @@ func readFile(path string, vars map[string]string) error {
 	return nil
 }
 
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	vars := make(map[string]string)
 	var filePaths []string
 	for _, path := range c.filepath {

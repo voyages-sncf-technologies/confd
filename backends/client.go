@@ -10,6 +10,7 @@ import (
 	"github.com/kelseyhightower/confd/backends/etcd"
 	"github.com/kelseyhightower/confd/backends/etcdv3"
 	"github.com/kelseyhightower/confd/backends/file"
+	"github.com/kelseyhightower/confd/backends/hesperides"
 	"github.com/kelseyhightower/confd/backends/rancher"
 	"github.com/kelseyhightower/confd/backends/redis"
 	"github.com/kelseyhightower/confd/backends/ssm"
@@ -21,7 +22,7 @@ import (
 // The StoreClient interface is implemented by objects that can retrieve
 // key/value pairs from a backend store.
 type StoreClient interface {
-	GetValues(keys []string) (map[string]string, error)
+	GetValues(prefix string, keys []string) (map[string]string, error)
 	WatchPrefix(prefix string, keys []string, waitIndex uint64, stopChan chan bool) (uint64, error)
 }
 
@@ -85,6 +86,11 @@ func New(config Config) (StoreClient, error) {
 		return dynamodb.NewDynamoDBClient(table)
 	case "ssm":
 		return ssm.New()
+	case "hesperides":
+		return hesperides.New(config.BackendNodes,
+			config.Username, config.Password,
+			config.App, config.Platform,
+		)
 	}
 	return nil, errors.New("Invalid backend")
 }

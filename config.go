@@ -70,8 +70,10 @@ func init() {
 	flag.StringVar(&config.Path, "path", "", "Vault mount path of the auth method (only used with -backend=vault)")
 	flag.StringVar(&config.Table, "table", "", "the name of the DynamoDB table (only used with -backend=dynamodb)")
 	flag.StringVar(&config.Separator, "separator", "", "the separator to replace '/' with when looking up keys in the backend, prefixed '/' will also be removed (only used with -backend=redis)")
-	flag.StringVar(&config.Username, "username", "", "the username to authenticate as (only used with vault and etcd backends)")
-	flag.StringVar(&config.Password, "password", "", "the password to authenticate with (only used with vault and etcd backends)")
+	flag.StringVar(&config.Username, "username", "", "the username to authenticate as (only used with vault / etcd / hesperides backends)")
+	flag.StringVar(&config.Password, "password", "", "the password to authenticate with (only used with vault / etcd / hesperides backends)")
+	flag.StringVar(&config.App, "app", "", "Hesperides application (only used with -backend=hesperides)")
+	flag.StringVar(&config.Platform, "platform", "", "Hesperides platform (only used with -backend=hesperides)")
 	flag.BoolVar(&config.Watch, "watch", false, "enable watch support")
 }
 

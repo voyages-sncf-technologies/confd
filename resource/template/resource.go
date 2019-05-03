@@ -177,7 +177,7 @@ func (t *TemplateResource) setVars() error {
 	log.Debug("Retrieving keys from store")
 	log.Debug("Key prefix set to " + t.Prefix)
 
-	result, err := t.storeClient.GetValues(util.AppendPrefix(t.Prefix, t.Keys))
+	result, err := t.storeClient.GetValues(t.Prefix, t.Keys)
 	if err != nil {
 		return err
 	}

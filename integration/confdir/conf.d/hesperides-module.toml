@@ -1,0 +1,10 @@
+[template]
+prefix = "/ROOT/test-module/1.2.3/WORKINGCOPY"
+src = "basic.conf.tmpl"
+dest = "/tmp/confd-hesperides-module-test.conf"
+keys = [
+  "/database/host",
+  "/database/password",
+  "/database/port",
+  "/database/username",
+]

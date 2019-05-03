@@ -2,6 +2,7 @@ package redis
 
 import (
 	"fmt"
+	"github.com/kelseyhightower/confd/util"
 	"os"
 	"strconv"
 	"strings"
@@ -138,7 +139,8 @@ func (c *Client) clean(key string) string {
 }
 
 // GetValues queries redis for keys prefixed by prefix.
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	// Ensure we have a connected redis client
 	rClient, err := c.connectedClient()
 	if err != nil && err != redis.ErrNil {

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/kelseyhightower/confd/util"
 	"io/ioutil"
 	"net/http"
 	"path"
@@ -172,7 +173,8 @@ func New(address, authType string, params map[string]string) (*Client, error) {
 }
 
 // GetValues queries etcd for keys prefixed by prefix.
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	branches := make(map[string]bool)
 	for _, key := range keys {
 		walkTree(c, key, branches)

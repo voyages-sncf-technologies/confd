@@ -1,6 +1,7 @@
 package consul
 
 import (
+	"github.com/kelseyhightower/confd/util"
 	"path"
 	"strings"
 
@@ -45,7 +46,8 @@ func New(nodes []string, scheme, cert, key, caCert string, basicAuth bool, usern
 }
 
 // GetValues queries Consul for keys
-func (c *ConsulClient) GetValues(keys []string) (map[string]string, error) {
+func (c *ConsulClient) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	vars := make(map[string]string)
 	for _, key := range keys {
 		key := strings.TrimPrefix(key, "/")

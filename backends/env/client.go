@@ -2,6 +2,7 @@ package env
 
 import (
 	"fmt"
+	"github.com/kelseyhightower/confd/util"
 	"os"
 	"strings"
 
@@ -19,7 +20,8 @@ func NewEnvClient() (*Client, error) {
 }
 
 // GetValues queries the environment for keys
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	allEnvVars := os.Environ()
 	envMap := make(map[string]string)
 	for _, e := range allEnvVars {

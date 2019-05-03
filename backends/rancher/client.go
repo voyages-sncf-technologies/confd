@@ -3,6 +3,7 @@ package rancher
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/kelseyhightower/confd/util"
 	"io/ioutil"
 	"net/http"
 	"reflect"
@@ -40,7 +41,8 @@ func NewRancherClient(backendNodes []string) (*Client, error) {
 
 }
 
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	vars := map[string]string{}
 
 	for _, key := range keys {

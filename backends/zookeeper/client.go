@@ -1,6 +1,7 @@
 package zookeeper
 
 import (
+	"github.com/kelseyhightower/confd/util"
 	"path/filepath"
 	"strings"
 	"time"
@@ -61,7 +62,11 @@ func nodeWalk(prefix string, c *Client, vars map[string]string) error {
 	return nil
 }
 
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	return c.GetPrefixedValues(util.AppendPrefix(prefix, keys))
+}
+
+func (c *Client) GetPrefixedValues(keys []string) (map[string]string, error) {
 	vars := make(map[string]string)
 	for _, v := range keys {
 		v = strings.Replace(v, "/*", "", -1)
@@ -117,7 +122,7 @@ func (c *Client) WatchPrefix(prefix string, keys []string, waitIndex uint64, sto
 	}
 
 	// List the childrens first
-	entries, err := c.GetValues([]string{prefix})
+	entries, err := c.GetPrefixedValues([]string{prefix})
 	if err != nil {
 		return 0, err
 	}

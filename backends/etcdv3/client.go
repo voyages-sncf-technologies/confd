@@ -3,6 +3,7 @@ package etcdv3
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"github.com/kelseyhightower/confd/util"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -160,7 +161,8 @@ func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, 
 }
 
 // GetValues queries etcd for keys prefixed by prefix.
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	// Use all operations on the same revision
 	var first_rev int64 = 0
 	vars := make(map[string]string)

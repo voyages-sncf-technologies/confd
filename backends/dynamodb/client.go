@@ -1,6 +1,7 @@
 package dynamodb
 
 import (
+	"github.com/kelseyhightower/confd/util"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -50,7 +51,8 @@ func NewDynamoDBClient(table string) (*Client, error) {
 }
 
 // GetValues retrieves the values for the given keys from DynamoDB
-func (c *Client) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(prefix string, keys []string) (map[string]string, error) {
+	keys = util.AppendPrefix(prefix, keys)
 	vars := make(map[string]string)
 	for _, key := range keys {
 		// Check if we can find the single item
